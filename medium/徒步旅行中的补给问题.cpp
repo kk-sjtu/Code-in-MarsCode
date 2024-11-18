@@ -118,4 +118,58 @@ int main() {
     return 0;
 }
 
+// version 3
+
+// 双端队列和滑动窗口
+
+#include <iostream>
+#include <vector>
+#include <deque>
+using namespace std;
+
+int solution(int n, int k, std::vector<int> data) {
+    deque<int> dq; // 双端队列，用于存储当前窗口内的最小值的索引
+    vector<int> min_costs; // 存储每个窗口的最小值
+
+    for (int i = 0; i < n; ++i) {
+        // 移除不在窗口范围内的元素
+        if (!dq.empty() && dq.front() < i - k + 1) {
+            dq.pop_front();
+        }
+
+        // 将当前元素加入双端队列，并保持队列单调递增
+        while (!dq.empty() && data[dq.back()] >= data[i]) {
+            dq.pop_back();
+        }
+        dq.push_back(i);
+
+        // 记录每个窗口的最小值
+        if (i >= k - 1) {
+            min_costs.push_back(data[dq.front()]);
+        }
+    }
+
+    int res = 0;
+    int min = data[0];
+    for (int i = 0; i < k; ++i) {
+        if (data[i] >= min) {
+            res += min;
+        } else {
+            min = data[i];
+            res += min;
+        }
+    }
+
+    for (int i = 1; i < min_costs.size(); ++i) {
+        res += min_costs[i];
+    }
+
+    return res;
+}
+
+int main() {
+    std::cout << solution(13, 6, {6, 19, 19, 3, 3, 25, 16, 17, 8, 1, 5, 21, 2}) << std::endl; // 输出：40
+
+    return 0;
+}
 
