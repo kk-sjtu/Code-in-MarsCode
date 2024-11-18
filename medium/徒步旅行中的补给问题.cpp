@@ -173,3 +173,41 @@ int main() {
     return 0;
 }
 
+
+// version 4
+
+// 动态规划
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+using namespace std;
+
+int solution(int n, int k, vector<int> data) {
+    vector<int> dp(n, 0); // 动态规划数组，存储每一天的累计最小花费
+    dp[0] = data[0]; // 第一天的花费就是第一个补给站的价格
+
+    for (int i = 1; i < n; ++i) {
+        int curCost = (i < data.size()) ? data[i] : INT_MAX; // 当前价格，如果没有补给站则为无穷大
+        int minCost = dp[i - 1]; // 初始化为前一天的最小花费
+
+        // 遍历前k天，找到最小的花费
+        for (int j = 1; j <= k && i - j >= 0; ++j) {
+            minCost = min(minCost, dp[i - j]);
+        }
+
+        dp[i] = minCost + curCost; // 今天的总花费等于前k天的最小花费加上今天的价格
+    }
+
+    return dp[n - 1]; // 返回最后一天的总花费
+}
+
+int main() {
+    cout << solution(5, 2, {1, 2, 3, 3, 2}) << endl; // 输出：9
+    cout << solution(6, 3, {4, 1, 5, 2, 1, 3}) << endl; // 输出：9
+    cout << solution(4, 1, {3, 2, 4, 1}) << endl; // 输出：10
+    cout << solution(13, 6, {6, 19, 19, 3, 3, 25, 16, 17, 8, 1, 5, 21, 2}) << endl; // 输出：40
+
+    return 0;
+}
