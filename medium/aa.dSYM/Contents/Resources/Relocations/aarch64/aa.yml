@@ -1,0 +1,9 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/keikei/Code-in-MarsCode/medium/aa'
+relocations:
+  - { offset: 0x26, size: 0x8, addend: 0x0, symName: __Z8solutionii, symObjAddr: 0x0, symBinAddr: 0x100003E90, symSize: 0x88 }
+  - { offset: 0x48, size: 0x8, addend: 0x0, symName: __Z8solutionii, symObjAddr: 0x0, symBinAddr: 0x100003E90, symSize: 0x88 }
+  - { offset: 0xAD, size: 0x8, addend: 0x0, symName: __ZNSt3__16__math4sqrtB8ne180100IiLi0EEEdT_, symObjAddr: 0x88, symBinAddr: 0x100003F18, symSize: 0x24 }
+  - { offset: 0x20F, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0xAC, symBinAddr: 0x100003F3C, symSize: 0x54 }
+...
