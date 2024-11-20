@@ -1,4 +1,5 @@
 // 还没有ac，先传上
+// 题目读错了。获得怪物属性这句话，可能没啥用
 
 #include <iostream>
 #include <vector>
@@ -46,5 +47,40 @@ int main() {
     cout << solution(3, 4, 5, {1, 2, 3}, {3, 2, 1}) << endl; // 输出：1
     cout << solution(5, 10, 10, {6, 9, 12, 4, 7}, {8, 9, 10, 2, 5}) << endl; // 输出：2
     cout << solution(4, 20, 25, {10, 15, 18, 22}, {12, 18, 20, 26}) << endl; // 输出：3
+    return 0;
+}
+
+
+// version 2
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+int solution(int n, int H, int A, std::vector<int> h, std::vector<int> a) {
+    // 动态规划，最长递增子序列
+    // dp[i] 表示考虑前 i 个怪物，且需要击败第 i 个怪物，此时的最大击败数量
+    int ans = 0;
+    std::vector<int> dp(n, 0);
+    for (int i = 0; i < n; i++) {
+        // 打不过当前怪物，选择跳过
+        if (h[i] >= H || a[i] >= A) {
+            continue;
+        }
+        dp[i] = 1;
+        for (int j = 0; j < i; j++) {
+            if (h[i] > h[j] && a[i] > a[j]) {
+                dp[i] = std::max(dp[i], dp[j] + 1);
+            }
+        }
+        ans = std::max(ans, dp[i]);
+    }
+    return ans;
+}
+
+int main() {
+    // 测试用例
+    std::cout << solution(3, 4, 5, {1, 2, 3}, {3, 2, 1}) << std::endl; // 输出：1
+    std::cout << solution(5, 10, 10, {6, 9, 12, 4, 7}, {8, 9, 10, 2, 5}) << std::endl; // 输出：2
+    std::cout << solution(4, 20, 25, {10, 15, 18, 22}, {12, 18, 20, 26}) << std::endl; // 输出：3
     return 0;
 }
